@@ -7,6 +7,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("org.springframework.cloud:spring-cloud-contract-gradle-plugin:2.0.1.RELEASE")
 	}
 }
 
@@ -14,6 +15,20 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'spring-cloud-contract'
+apply plugin: 'maven-publish'
+
+publishing {
+	repositories {
+		maven {
+			url 'http://localhost:8081/nexus/content/repositories/snapshots/'
+			credentials {
+				username = 'admin'
+				password = 'admin123'
+			}
+		}
+	}
+}
 
 group = 'com.thoughtworks'
 version = '0.0.1-SNAPSHOT'
@@ -32,10 +47,16 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.flywaydb:flyway-core')
+	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('mysql:mysql-connector-java')
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.dbunit:dbunit:2.5.0')
+	testCompile('com.github.springtestdbunit:spring-test-dbunit:1.2.0')
 	testCompile('org.springframework.cloud:spring-cloud-starter-contract-verifier')
+	testCompile('com.github.database-rider:rider-spring:1.2.9') {
+		exclude group: 'org.slf4j', module: 'slf4j-simple'
+	}
 }
 
 dependencyManagement {
@@ -43,3 +64,8 @@ dependencyManagement {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
 }
+
+contracts {
+	baseClassForTests = "com.thoughtworks.practicediary.PracticeDiaryBase"
+}
+

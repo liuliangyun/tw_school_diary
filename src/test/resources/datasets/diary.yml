@@ -1,0 +1,10 @@
+diary:
+  - id: 1
+    date: "2018-08-30"
+    text: "apple"
+  - id: 2
+    date: "2018-08-30"
+    text: "book"
+  - id: 3
+    date: "2018-08-31"
+    text: "mac pro"
