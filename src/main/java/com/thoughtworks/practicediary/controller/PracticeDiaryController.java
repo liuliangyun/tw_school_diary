@@ -1,13 +1,26 @@
 package com.thoughtworks.practicediary.controller;
 
+import com.thoughtworks.practicediary.dto.PageablePracticeDiaries;
 import com.thoughtworks.practicediary.entity.PracticeDiary;
+import com.thoughtworks.practicediary.exception.PracticeDiaryNotFoundException;
 import com.thoughtworks.practicediary.service.PracticeDiaryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/practiceDiaries")
@@ -17,9 +30,36 @@ public class PracticeDiaryController {
     private PracticeDiaryService practiceDiaryService;
 
     @PostMapping
-    public ResponseEntity addPracticeDiary(@RequestBody PracticeDiary practiceDiary){
-        practiceDiaryService.addPracticeDiary(practiceDiary);
-        return ResponseEntity.ok().build();
+    public ResponseEntity addPracticeDiary(@RequestBody PracticeDiary practiceDiary) {
+        PracticeDiary returnedPracticeDiary = practiceDiaryService.addPracticeDiary(practiceDiary);
+        String uri = String.format("/practiceDiaries/%s", returnedPracticeDiary.getId());
+        return ResponseEntity.created(URI.create(uri)).build();
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity deletePracticeDiary(@PathVariable int id) {
+        practiceDiaryService.deletePracticeDiary(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity updatePracticeDiary(@PathVariable int id, @RequestBody PracticeDiary practiceDiary) {
+        practiceDiaryService.updatePracticeDiary(id, practiceDiary);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<PageablePracticeDiaries> getAllPracticeDiary(
+            @RequestParam(defaultValue = "0") int pageNum,
+            @RequestParam(defaultValue = "3") int pageSize,
+            @RequestParam(defaultValue = "0") int currentPage) {
+        PageablePracticeDiaries pageablePracticeDiaries = practiceDiaryService.getAllPracticeDiary(pageNum, pageSize, currentPage);
+        return ResponseEntity.ok(pageablePracticeDiaries);
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    private void praticeDiaryNotFoundException(PracticeDiaryNotFoundException ex) {
+
+    }
 }

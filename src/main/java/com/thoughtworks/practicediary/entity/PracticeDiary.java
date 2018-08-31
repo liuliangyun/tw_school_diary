@@ -18,7 +18,7 @@ public class PracticeDiary {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     private Date date;
 
