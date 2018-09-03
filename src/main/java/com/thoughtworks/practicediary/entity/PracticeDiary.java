@@ -20,7 +20,7 @@ public class PracticeDiary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date date;
 
     private String text;

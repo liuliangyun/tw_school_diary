@@ -5,6 +5,7 @@ import com.thoughtworks.practicediary.exception.PracticeDiaryNotFoundException;
 import com.thoughtworks.practicediary.service.PracticeDiaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,7 +52,8 @@ public class PracticeDiaryController {
     public ResponseEntity<Page> getAllPracticeDiary(
             @RequestParam(defaultValue = "0") int pageNum,
             @RequestParam(defaultValue = "3") int pageSize) {
-        Page practiceDiaryPage = practiceDiaryService.getAllPracticeDiary(pageNum, pageSize);
+        Sort sort = new Sort(Sort.Direction.DESC, "date");
+        Page practiceDiaryPage = practiceDiaryService.getAllPracticeDiary(pageNum, pageSize, sort);
         return ResponseEntity.ok(practiceDiaryPage);
     }
 
