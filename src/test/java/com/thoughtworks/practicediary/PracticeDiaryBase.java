@@ -13,6 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 
+import javax.sound.midi.Soundbank;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = PracticeDiaryApplication.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @DBUnit(caseSensitiveTableNames = true)

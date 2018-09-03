@@ -4,7 +4,6 @@ Contract.make {
     name "should_delete_a_practice_diary_groovy"
     request {
         method DELETE()
-
         url("/practiceDiaries/3")
     }
     response {
