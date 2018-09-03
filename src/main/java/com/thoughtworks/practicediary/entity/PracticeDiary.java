@@ -23,9 +23,6 @@ public class PracticeDiary {
 
     private String text;
 
-    @JsonIgnore
-    private boolean isExcellent;
-
     public PracticeDiary() {
     }
 
