@@ -1,16 +1,16 @@
 import org.springframework.cloud.contract.spec.Contract
 
 Contract.make {
-    name "should_add_a_practice_diary_groovy"
+    name "should_update_a_practice_diary_groovy"
     request {
-        method POST()
+        method PUT()
         headers {
             contentType(applicationJson())
         }
-        body(file("addedPracticeDiary.json"))
-        url("/practiceDiaries")
+        body(file("updatedPracticeDiary.json"))
+        url("/practiceDiaries/2")
     }
     response {
-        status(201)
+        status(204)
     }
 }

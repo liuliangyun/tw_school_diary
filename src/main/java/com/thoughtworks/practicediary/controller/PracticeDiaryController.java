@@ -1,10 +1,10 @@
 package com.thoughtworks.practicediary.controller;
 
-import com.thoughtworks.practicediary.dto.PageablePracticeDiaries;
 import com.thoughtworks.practicediary.entity.PracticeDiary;
 import com.thoughtworks.practicediary.exception.PracticeDiaryNotFoundException;
 import com.thoughtworks.practicediary.service.PracticeDiaryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/practiceDiaries")
@@ -49,12 +48,11 @@ public class PracticeDiaryController {
     }
 
     @GetMapping
-    public ResponseEntity<PageablePracticeDiaries> getAllPracticeDiary(
+    public ResponseEntity<Page> getAllPracticeDiary(
             @RequestParam(defaultValue = "0") int pageNum,
-            @RequestParam(defaultValue = "3") int pageSize,
-            @RequestParam(defaultValue = "0") int currentPage) {
-        PageablePracticeDiaries pageablePracticeDiaries = practiceDiaryService.getAllPracticeDiary(pageNum, pageSize, currentPage);
-        return ResponseEntity.ok(pageablePracticeDiaries);
+            @RequestParam(defaultValue = "3") int pageSize) {
+        Page practiceDiaryPage = practiceDiaryService.getAllPracticeDiary(pageNum, pageSize);
+        return ResponseEntity.ok(practiceDiaryPage);
     }
 
     @ExceptionHandler

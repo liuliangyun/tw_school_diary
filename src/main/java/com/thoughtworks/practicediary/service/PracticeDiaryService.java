@@ -1,6 +1,5 @@
 package com.thoughtworks.practicediary.service;
 
-import com.thoughtworks.practicediary.dto.PageablePracticeDiaries;
 import com.thoughtworks.practicediary.entity.PracticeDiary;
 import com.thoughtworks.practicediary.exception.PracticeDiaryNotFoundException;
 import com.thoughtworks.practicediary.repository.PracticeDiaryRepository;
@@ -8,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.awt.print.Pageable;
-import java.util.List;
 
 @Service
 public class PracticeDiaryService {
@@ -34,10 +30,8 @@ public class PracticeDiaryService {
         practiceDiaryRepository.save(selectedPracticeDiary);
     }
 
-    public PageablePracticeDiaries getAllPracticeDiary(int pageNum, int pageSize, int currentPage) {
+    public Page getAllPracticeDiary(int pageNum, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
-
-        Page<PracticeDiary> practiceDiaryPage = practiceDiaryRepository.findAll(pageRequest);
-        return new PageablePracticeDiaries(practiceDiaryPage.getContent(),practiceDiaryPage.getTotalElements(),currentPage);
+        return practiceDiaryRepository.findAll(pageRequest);
     }
 }
